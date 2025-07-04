@@ -44,5 +44,8 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  }
+  },
+  "keywords": ["npm", "nest-async", "nest-kafka"],
+  "author": "Grudinkin Max",
+  "license": "MIT"
 }

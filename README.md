@@ -74,10 +74,7 @@ import { SubscribeTo } from 'nest-async';
 
 @Controller()
 export class OrdersController {
-  @SubscribeTo({ 
-    topic: 'orders',
-    fromBeginning: false
-  })
+  @SubscribeTo('topic-name', options)
   async handleNewOrders(payload: any) {
     const order = JSON.parse(payload.message.value.toString());
     console.log('Processing order:', order.id);
@@ -175,7 +172,7 @@ admin	AdminConfig	Optional admin client settings
 #### Decorators
 Decorator	Parameters	Description
 ```ts
-@SubscribeTo({ topic: string, fromBeginning?: boolean })
+@SubscribeTo(topic: string, { fromBeginning?: boolean })
 ```
 Marks method as message handler
 #### Services
@@ -207,4 +204,4 @@ Topic Naming: Follow domain-driven naming conventions
 Monitoring: Implement health checks for Kafka connections
 
 License
-MIT © [Your Name/Company]
+MIT © [Max Grudinkin]
