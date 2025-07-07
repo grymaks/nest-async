@@ -40,6 +40,8 @@ import { NestAsyncModule } from 'nest-async';
       producer: {
         allowAutoTopicCreation: true,
       },
+      valueDecoderType: DecodersEnum.JSON; // default DecodersEnum.JSON
+      keyDecoderType: DecodersEnum.STRING; // default DecodersEnum.STRING
     }),
   ],
 })
