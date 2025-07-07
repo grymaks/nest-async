@@ -29,11 +29,14 @@ export class ConsumerService implements OnModuleInit, OnModuleDestroy {
     this.keyDecoder = this.getDecoder('keyDecoderType');
   }
 
-    async registerTopicHandlers() {
-      for (const options of TOPIC_HANDLERS_MAP) {
-        const handler = TOPIC_HANDLERS_MAP.get(options[0])!.handler;
-        await this.subscribe(options[0], handler)
+  async registerTopicHandlers() {
+    for (const options of TOPIC_HANDLERS_MAP) {
+      const handler = TOPIC_HANDLERS_MAP.get(options[0])?.handler;
+      const topic = this.options.topics?.[options[0]]?.topic || options[0];
+      if (handler) {
+        await this.subscribe(topic, handler)
       }
+    }
   }
 
   async onModuleInit() {

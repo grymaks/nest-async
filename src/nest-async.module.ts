@@ -2,8 +2,7 @@ import { DynamicModule, Module, Provider } from '@nestjs/common';
 import { Kafka } from 'kafkajs';
 import { KAFKA_MODULE_OPTIONS } from './constants';
 import { NestAsyncModuleOptions, NestAsyncModuleAsyncOptions } from './interfaces';
-import { KafkaService } from './services';
-import { ConsumerService } from './services';
+import { KafkaService , ConsumerService } from './services';
 
 @Module({})
 export class NestAsyncModule {

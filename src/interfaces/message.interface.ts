@@ -1,15 +1,15 @@
-export interface IKafkaMessage {
+export interface IKafkaMessage<T = string | Buffer | null> {
   key?: string | Buffer;
-  value: string | Buffer | null;
+  value: T;
   headers?: Record<string, string | Buffer>;
   partition?: number;
   timestamp?: string;
 }
 
-export interface IEachMessagePayload {
+export interface IEachMessagePayload<T = string | Buffer | null> {
   topic: string
   partition: number
-  message: IKafkaMessage
+  message: IKafkaMessage<T>
   heartbeat(): Promise<void>
   pause(): () => void
 }

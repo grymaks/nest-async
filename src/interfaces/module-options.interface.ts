@@ -1,10 +1,11 @@
 import { KafkaConfig, ProducerConfig, ConsumerConfig, AdminConfig } from 'kafkajs';
-import { DecodersEnum } from './consumer.interface';
+import { DecodersEnum, SubscribeToAsyncOptions } from './consumer.interface';
 
 export interface NestAsyncModuleOptions {
   client: KafkaConfig;
   producer?: ProducerConfig;
   consumer?: ConsumerConfig;
+  topics: Record<string, SubscribeToAsyncOptions>
   admin?: AdminConfig;
   schemaRegistryHost?: string;
   valueDecoderType?: DecodersEnum;
