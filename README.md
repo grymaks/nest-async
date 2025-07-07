@@ -28,7 +28,7 @@ npm install nest-async kafkajs @nestjs/common
 ### Basic Configuration
 ```ts
 import { Module } from '@nestjs/common';
-import { NestAsyncModule } from 'nest-async';
+import { NestAsyncModule, DecodersEnum } from 'nest-async';
 
 @Module({
   imports: [
