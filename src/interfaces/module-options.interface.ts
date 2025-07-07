@@ -7,7 +7,8 @@ export interface NestAsyncModuleOptions {
   consumer?: ConsumerConfig;
   admin?: AdminConfig;
   schemaRegistryHost?: string;
-  decoderType?: DecodersEnum;
+  valueDecoderType?: DecodersEnum;
+  keyDecoderType?: DecodersEnum;
 }
 
 export interface NestAsyncModuleAsyncOptions {

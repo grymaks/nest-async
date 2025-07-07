@@ -12,7 +12,8 @@ export class ConsumerService implements OnModuleInit, OnModuleDestroy {
   private readonly logger = new Logger(ConsumerService.name);
   private consumer!: Consumer;
   private isConnected = false;
-  private readonly decoder: { decode: (payload: any) => any };
+  private readonly valueDecoder: { decode: (payload: any) => any };
+  private readonly keyDecoder: { decode: (payload: any) => any };
 
 
   constructor(
@@ -24,7 +25,8 @@ export class ConsumerService implements OnModuleInit, OnModuleDestroy {
     if (options.schemaRegistryHost) {
       this.registry = new SchemaRegistry({ host: options.schemaRegistryHost });
     }
-    this.decoder = this.getDecoder();
+    this.valueDecoder = this.getDecoder('valueDecoderType');
+    this.keyDecoder = this.getDecoder('keyDecoderType');
   }
 
     async registerTopicHandlers() {
@@ -101,8 +103,9 @@ export class ConsumerService implements OnModuleInit, OnModuleDestroy {
     }
   }
 
-    private readonly getDecoder = () => {
-    const decoderType = this.options.decoderType ?? DecodersEnum.JSON;
+  private readonly getDecoder = (type: 'keyDecoderType' | 'valueDecoderType') => {
+    const defaultDecoder = type === 'keyDecoderType' ? DecodersEnum.STRING : DecodersEnum.JSON;
+    const decoderType = this.options[type] ?? defaultDecoder;
     switch (decoderType) {
       case DecodersEnum.AVRO:
         return this.avroDecoder();
@@ -113,9 +116,11 @@ export class ConsumerService implements OnModuleInit, OnModuleDestroy {
     }
   };
 
+  
+
     private readonly decodeMessage = async <T>(payload: EachMessagePayload): Promise<IEachMessagePayload> => {
-    const key = await this.decoder.decode(payload.message.key) as string;
-    const value = await this.decoder.decode(payload.message.value);
+    const key = await this.keyDecoder.decode(payload.message.key) as string;
+    const value = await this.valueDecoder.decode(payload.message.value);
     const headers = payload.message.headers || {}
     const decodedHeaders = Object.entries(headers).reduce((acc, [k, v]) => ({ ...acc, [k]: String(v) }), {});
     return {...payload, message: { ...payload.message, value, key, headers: decodedHeaders }, };
